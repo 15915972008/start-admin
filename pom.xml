@@ -25,10 +25,16 @@
         <module>start-core</module>
         <module>start-cache</module>
         <module>start-swagger</module>
+        <module>start-security</module>
     </modules>
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.start</groupId>
+                <artifactId>start-security</artifactId>
+                <version>${project.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>com.start</groupId>
@@ -46,6 +52,13 @@
                 <groupId>com.start</groupId>
                 <artifactId>start-swagger</artifactId>
                 <version>${project.version}</version>
+            </dependency>
+
+            <!--            security-->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-security</artifactId>
+                <version>2.3.1.RELEASE</version>
             </dependency>
 
             <!--            swagger-->
