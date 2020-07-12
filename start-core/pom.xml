@@ -17,9 +17,17 @@
     <dependencies>
         <dependency>
             <groupId>com.start</groupId>
+            <artifactId>start-security</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.start</groupId>
             <artifactId>start-swagger</artifactId>
         </dependency>
         <!-- ******************************* 常用依赖库 ********************************** -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!-- 针对开发IO流功能的工具类库 -->
         <dependency>
             <groupId>commons-io</groupId>
