@@ -17,10 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>com.start</groupId>
-            <artifactId>start-security</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.start</groupId>
             <artifactId>start-swagger</artifactId>
         </dependency>
         <!-- ******************************* 常用依赖库 ********************************** -->

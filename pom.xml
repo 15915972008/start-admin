@@ -26,6 +26,7 @@
         <module>start-cache</module>
         <module>start-swagger</module>
         <module>start-security</module>
+        <module>start-admin</module>
     </modules>
 
     <dependencyManagement>
@@ -53,6 +54,7 @@
                 <artifactId>start-swagger</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
 
             <!--            security-->
             <dependency>
@@ -211,6 +213,13 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>

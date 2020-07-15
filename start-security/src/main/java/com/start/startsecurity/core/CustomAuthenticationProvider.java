@@ -1,7 +1,5 @@
 package com.start.startsecurity.core;
 
-import com.start.startsecurity.dto.User;
-import com.start.startsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -19,8 +17,6 @@ import org.springframework.stereotype.Component;
     @Component
     public class CustomAuthenticationProvider extends AbstractUserDetailsAuthenticationProvider {
 
-        @Autowired
-        private UserService userService;
 
         @Autowired
         private CustomUserDetailsService detailsService;
@@ -37,7 +33,7 @@ import org.springframework.stereotype.Component;
         @Override
         protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException {
             String username = userDetails.getUsername();
-            User user = userService.get("user_name",username);
+//            User user = userService.get("user_name",username);
 
             // 检查密码是否正确
             String password = userDetails.getPassword();

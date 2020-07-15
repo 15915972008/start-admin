@@ -1,6 +1,6 @@
 package com.start.startsecurity.message;
 
-import com.lyyzoo.sunny.core.helper.LanguageHelper;
+import com.start.startsecurity.helper.LanguageHelper;
 import org.springframework.context.MessageSource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 

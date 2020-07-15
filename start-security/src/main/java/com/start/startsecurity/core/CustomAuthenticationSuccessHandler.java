@@ -1,8 +1,5 @@
 package com.start.startsecurity.core;
 
-import com.start.startsecurity.dto.User;
-import com.start.startsecurity.service.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -20,14 +17,12 @@ import java.io.IOException;
 @Component
 public class CustomAuthenticationSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
-    @Autowired
-    private UserService userService;
 
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                                         Authentication authentication) throws IOException, ServletException {
         String username = request.getParameter("username");
-        User user = userService.get("user_name",username);
+//        User user = userService.get("user_name",username);
         //登录成功清楚登录次数
         //userService.loginSuccess(user.getId());
         super.onAuthenticationSuccess(request, response, authentication);

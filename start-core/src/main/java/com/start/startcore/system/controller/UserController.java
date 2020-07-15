@@ -1,6 +1,5 @@
 package com.start.startcore.system.controller;
 
-import com.start.startcore.base.BaseController;
 import com.start.startcore.base.Result;
 import com.start.startcore.system.dto.User;
 import com.start.startcore.system.service.UserService;
@@ -23,7 +22,7 @@ import java.util.List;
 @Api(tags = "用户管理")
 @RequestMapping("/sys/user")
 @RestController
-public class UserController extends BaseController {
+public class UserController {
 
     @Autowired
     private UserService userService;

@@ -25,7 +25,6 @@ public abstract class BaseService<T> implements Service<T> {
 
     private Class<T> entityClass;
 
-    @SuppressWarnings("unchecked")
     @PostConstruct
     public void init() {
         this.entityClass = Reflections.getClassGenericType(getClass());

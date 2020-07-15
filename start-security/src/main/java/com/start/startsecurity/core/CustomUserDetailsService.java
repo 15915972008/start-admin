@@ -2,10 +2,11 @@ package com.start.startsecurity.core;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import com.start.startcore.system.dto.User;
+import com.start.startcore.system.service.UserService;
 import com.start.startsecurity.dto.CustomUserDetails;
-import com.start.startsecurity.dto.User;
 import com.start.startsecurity.exception.AccountNotExistsException;
-import com.start.startsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -37,7 +38,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         authorities.add(new SimpleGrantedAuthority("ROLE_USER"));
 
         return new CustomUserDetails(username, user.getPassword(), user.getId(),
-                user.getNickName(), "暂无", authorities);
+                user.getNickName(), "chian", authorities);
     }
 
 }

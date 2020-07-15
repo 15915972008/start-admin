@@ -1,10 +1,11 @@
 package com.start.startcore.system.dto;
 
+import java.util.Collection;
+import java.util.Objects;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
-import java.util.Collection;
-import java.util.Objects;
+
 
 /**
  * 定制的UserDetail对象

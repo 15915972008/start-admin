@@ -1,9 +1,7 @@
 package com.start.startsecurity.core;
 
 import com.start.startsecurity.SecurityProperties;
-import com.start.startsecurity.dto.User;
 import com.start.startsecurity.message.MessageAccessor;
-import com.start.startsecurity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.AuthenticationException;
@@ -30,8 +28,6 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
     @Autowired
     private SecurityProperties securityProperties;
 
-    @Autowired
-    private UserService userService;
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
@@ -47,7 +43,7 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
                     MessageAccessor.getMessage(exception.getMessage(), exception.getMessage()));
         }
         if (exception instanceof BadCredentialsException) {
-            User user = userService.get("user_name",username);
+//            User user = userService.get("user_name",username);
             //登录失败，记录失败次数
             //userService.loginFail(user.getId());
         }

@@ -36,7 +36,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/static/**", "/webjars/**", "/public/**", "/login", "/favicon.ico")
+                .antMatchers("/static/**", "/webjars/**", "/public/**", "/login", "/favicon.ico","/swagger-ui.html","/sys/user/queryAll","/*")
                 .permitAll() // 允许匿名访问的地址
                 .and() // 使用and()方法相当于XML标签的关闭，这样允许我们继续配置父类节点。
                 .authorizeRequests()
