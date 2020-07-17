@@ -1,6 +1,8 @@
 package com.start.startsecurity;
 
+import com.start.startsecurity.core.JwtAuthenticationFilter;
 import com.start.startsecurity.core.JwtLoginFilter;
+import com.start.startsecurity.core.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
@@ -9,10 +11,12 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Security 主配置器
@@ -26,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Autowired
     private SecurityProperties properties;
 
-
+    @Autowired
+    private UserDetailsService userDetailsService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -63,26 +68,30 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     }
 
-    /**
-     * 设置认证处理器
-     */
+//    定制UserDetailsService ，而不自定义 AuthenticationProvider
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider);
-        super.configure(auth);
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 指定自定义的获取信息获取服务
+        auth.userDetailsService(JwtUserDetails);
     }
 
-    /**
-     * 密码处理器
-     */
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+    @Override
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+        // 使用自定义登录身份认证组件
+        auth.authenticationProvider(new JwtAuthenticationProvider(userDetailsService));
     }
 
-    @Bean
-    @Override
-    public AuthenticationManager authenticationManager() throws Exception {
-        return super.authenticationManager();
-    }
+//    /**
+//     * 密码处理器
+//     */
+//    @Bean
+//    public PasswordEncoder passwordEncoder() {
+//        return new BCryptPasswordEncoder();
+//    }
+//
+//    @Bean
+//    @Override
+//    public AuthenticationManager authenticationManager() throws Exception {
+//        return super.authenticationManager();
+//    }
 }

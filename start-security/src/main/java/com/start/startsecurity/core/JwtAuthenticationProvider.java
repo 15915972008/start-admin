@@ -22,15 +22,15 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        // 可以在此处覆写整个登录认证逻辑
-        return super.authenticate(authentication);
+    	// 可以在此处覆写整个登录认证逻辑
+    	return super.authenticate(authentication);
     }
-
+    
     @Override
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
-            throws AuthenticationException {
-        // 可以在此处覆写密码验证逻辑
-        super.additionalAuthenticationChecks(userDetails, authentication);
-    }
+	protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
+			throws AuthenticationException {
+    	// 可以在此处覆写密码验证逻辑
+		super.additionalAuthenticationChecks(userDetails, authentication);
+	}
 
 }
