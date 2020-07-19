@@ -1,4 +1,4 @@
-package com.start.startsecurity.core;
+package com.start.startsecurity.dto;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

@@ -1,5 +1,7 @@
 package com.start.startsecurity.core;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.core.Authentication;
@@ -7,6 +9,8 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 /**
  * 身份验证提供者
@@ -14,6 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
  * @date Jun 29, 2019
  */
 public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public JwtAuthenticationProvider(UserDetailsService userDetailsService) {
         setUserDetailsService(userDetailsService);
@@ -29,8 +36,18 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
     @Override
 	protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
 			throws AuthenticationException {
-    	// 可以在此处覆写密码验证逻辑
-		super.additionalAuthenticationChecks(userDetails, authentication);
+        String password = userDetails.getPassword();
+        String loginPassWord = authentication.getCredentials().toString();
+        //不知道为什么死活注入为空
+//        boolean match = passwordEncoder.matches(loginPassWord, password);
+        boolean match = password.equals(loginPassWord);
+        if (!match) {
+            throw new BadCredentialsException(messages.getMessage(
+                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
+                    "Bad credentials"));
+        }
+        // 可以在此处覆写密码验证逻辑
+//		super.additionalAuthenticationChecks(userDetails, authentication);
 	}
 
 }

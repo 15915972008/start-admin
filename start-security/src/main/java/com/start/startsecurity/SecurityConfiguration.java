@@ -1,22 +1,18 @@
 package com.start.startsecurity;
 
 import com.start.startsecurity.core.JwtAuthenticationFilter;
+import com.start.startsecurity.core.JwtAuthenticationProvider;
 import com.start.startsecurity.core.JwtLoginFilter;
-import com.start.startsecurity.core.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
-import org.springframework.security.core.userdetails.UserDetailsService;
 
 /**
  * Security 主配置器
@@ -35,45 +31,33 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http
+        // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
+        http.cors().and().csrf().disable()
                 .authorizeRequests()
                 // 跨域预检请求
-                .antMatchers("/static/**", "/webjars/**", "/public/**", "/login", "/favicon.ico")
-                .permitAll() // 允许匿名访问的地址
+                .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+                // 登录URL
+                .antMatchers("/login").permitAll()
                 // swagger
                 .antMatchers("/swagger**/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
-                .and() // 使用and()方法相当于XML标签的关闭，这样允许我们继续配置父类节点。
-                .authorizeRequests()
-                .anyRequest()
-                .authenticated() // 其它地址都需进行认证
-                .and()
-                .formLogin() // 启用表单登录
-                .loginPage(properties.getLoginPage()) // 登录页面
-                .defaultSuccessUrl("/index") // 默认的登录成功后的跳转地址
-                // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
-                .and()
-                .csrf()
-                .disable()
-        ;
-
+                // 其他所有请求需要身份认证
+                .anyRequest().authenticated();
         // 退出登录处理器
         http.logout().logoutSuccessHandler(new HttpStatusReturningLogoutSuccessHandler());
         // 开启登录认证流程过滤器
         http.addFilterBefore(new JwtLoginFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
         // 访问控制时登录状态检查过滤器
         http.addFilterBefore(new JwtAuthenticationFilter(authenticationManager()), UsernamePasswordAuthenticationFilter.class);
-
     }
 
 //    定制UserDetailsService ，而不自定义 AuthenticationProvider
-    @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        // 指定自定义的获取信息获取服务
-        auth.userDetailsService(JwtUserDetails);
-    }
+//    @Override
+//    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+//        // 指定自定义的获取信息获取服务
+//        auth.userDetailsService(userDetailsService);
+//    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {

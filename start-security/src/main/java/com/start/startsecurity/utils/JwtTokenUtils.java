@@ -7,11 +7,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-import com.sun.org.apache.xml.internal.security.algorithms.SignatureAlgorithm;
+
+import com.start.startsecurity.dto.GrantedAuthorityImpl;
+import com.start.startsecurity.dto.JwtAuthenticatioToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 /**
  * JWT工具类
@@ -86,7 +89,7 @@ public class JwtTokenUtils implements Serializable {
 
     /**
      * 根据请求令牌获取登录认证信息
-     * @param token 令牌
+     *
      * @return 用户名
      */
     public static Authentication getAuthenticationeFromToken(HttpServletRequest request) {

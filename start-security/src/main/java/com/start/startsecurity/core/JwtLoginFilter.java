@@ -5,8 +5,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -15,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.start.startsecurity.dto.JwtAuthenticatioToken;
 import com.start.startsecurity.utils.HttpUtils;
 import com.start.startsecurity.utils.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -51,28 +49,30 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         // 读取方式不能读取到如 application/json 等 post 请求数据，需要把
         // 用户名密码的读取逻辑修改为到流中读取request.getInputStream()
 
-        String body = getBody(request);
-        ObjectMapper mapper = new ObjectMapper();
-        Map map = new HashMap();
-        try {
-             map = mapper.readValue(body, Map.class);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        String username = map.get("username").toString();
-        String password = map.get("password").toString();
+//        String body = getBody(request);
+//        ObjectMapper mapper = new ObjectMapper();
+//        Map map = new HashMap();
+//        try {
+//             map = mapper.readValue(body, Map.class);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//        String username = map.get("username").toString();
+//        String password = map.get("password").toString();
+        String userName = request.getParameter("userName");
+        String passWord = request.getParameter("passWord");
 
-        if (username == null) {
-            username = "";
-        }
-
-        if (password == null) {
-            password = "";
+        if (userName == null) {
+            userName = "";
         }
 
-        username = username.trim();
+        if (passWord == null) {
+            passWord = "";
+        }
 
-        JwtAuthenticatioToken authRequest = new JwtAuthenticatioToken(username, password);
+        userName = userName.trim();
+
+        JwtAuthenticatioToken authRequest = new JwtAuthenticatioToken(userName, passWord);
 
         // Allow subclasses to set the "details" property
         setDetails(request, authRequest);
@@ -85,7 +85,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
                                             Authentication authResult) throws IOException, ServletException {
         // 存储登录认证信息到上下文
-        SecurityContextHolder.getContext().setAuthentication(authResult);
+         SecurityContextHolder.getContext().setAuthentication(authResult);
         // 记住我服务
         getRememberMeServices().loginSuccess(request, response, authResult);
         // 触发事件监听器

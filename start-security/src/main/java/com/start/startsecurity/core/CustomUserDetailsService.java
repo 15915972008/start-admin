@@ -3,6 +3,8 @@ package com.start.startsecurity.core;
 
 import com.start.startcore.system.dto.User;
 import com.start.startcore.system.service.UserService;
+import com.start.startsecurity.dto.GrantedAuthorityImpl;
+import com.start.startsecurity.dto.JwtUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -28,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userService.get("user_name",username);
+        User user = userService.get("userName",username);
         if (user == null) {
             throw new UsernameNotFoundException("该用户不存在");
         }
