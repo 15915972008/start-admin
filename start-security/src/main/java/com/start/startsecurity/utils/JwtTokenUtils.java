@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
-
 import com.start.startsecurity.dto.GrantedAuthorityImpl;
 import com.start.startsecurity.dto.JwtAuthenticatioToken;
 import org.springframework.security.core.Authentication;
@@ -67,7 +66,8 @@ public class JwtTokenUtils implements Serializable {
      */
     private static String generateToken(Map<String, Object> claims) {
         Date expirationDate = new Date(System.currentTimeMillis() + EXPIRE_TIME);
-        return Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.HS512, SECRET).compact();
+        String token = Jwts.builder().setClaims(claims).setExpiration(expirationDate).signWith(SignatureAlgorithm.ES256, SECRET).compact();
+        return token;
     }
 
     /**
