@@ -62,8 +62,9 @@ public class Result implements Serializable {
         this.msg = msg;
     }
 
-    public Result(boolean success, String code, String msg, Object data){
+    public Result(boolean success, Integer status,String code, String msg, Object data){
         this(success);
+        this.status = status;
         this.code = code;
         this.msg = msg;
         this.data = data;

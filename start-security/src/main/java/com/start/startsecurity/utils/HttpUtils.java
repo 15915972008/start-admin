@@ -7,7 +7,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.start.startcore.base.Result;
+import com.start.startcore.constants.BaseEnums;
 import com.start.startcore.util.Results;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -34,7 +36,7 @@ public class HttpUtils {
      */
     public static void write(HttpServletResponse response, Object data) throws IOException {
         response.setContentType("application/json; charset=utf-8");
-        Result result = Results.successWithData(data);
+        Result result = Results.successWithData(data, null,BaseEnums.SUCCESS.desc());
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(result);
         response.getWriter().print(json);

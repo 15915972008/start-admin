@@ -2,6 +2,7 @@ package com.start.startcore.util;
 
 
 import com.start.startcore.base.Result;
+import org.springframework.http.HttpStatus;
 
 /**
  * Result生成工具类
@@ -45,15 +46,15 @@ public class Results {
     }
 
     public static Result successWithData(Object data) {
-        return new Result(true, null, null, data);
+        return new Result(true, null, null,null, data);
     }
 
     public static Result successWithData(Object data, String msg) {
-        return new Result(true, null, msg, data);
+        return new Result(true, null,null, msg, data);
     }
 
-    public static Result successWithData(Object data, String code, String msg) {
-        return new Result(true, code, msg, data);
+    public static Result successWithData(Object data,String code, String msg) {
+        return new Result(true, HttpStatus.OK.value(), code, msg, data);
     }
 
     //
@@ -80,14 +81,14 @@ public class Results {
     }
 
     public static Result failureWithData(Object data) {
-        return new Result(false, null, null, data);
+        return new Result(false, HttpStatus.valueOf("500").value(), null, null, data);
     }
 
     public static Result failureWithData(Object data, String msg) {
-        return new Result(false, null, msg, data);
+        return new Result(false, HttpStatus.valueOf("500").value(),null, msg, data);
     }
 
     public static Result failureWithData(Object data, String code, String msg) {
-        return new Result(false, code, msg, data);
+        return new Result(false, HttpStatus.valueOf("500").value(),code, msg, data);
     }
 }
