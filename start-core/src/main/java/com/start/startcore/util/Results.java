@@ -61,15 +61,15 @@ public class Results {
     // 业务调用失败
     // ----------------------------------------------------------------------------------------------------
     public static Result failure() {
-        return new Result(false);
+        return new Result(false,HttpStatus.valueOf("500").value());
     }
 
     public static Result failure(String msg) {
-        return new Result(false, null, msg);
+        return new Result(false, HttpStatus.valueOf("500").value(),null, msg);
     }
 
     public static Result failure(String code, String msg) {
-        return new Result(false, code, msg);
+        return new Result(false, HttpStatus.valueOf("500").value(),code, msg);
     }
 
     public static Result failureWithStatus(Integer status) {
