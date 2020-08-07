@@ -1,5 +1,6 @@
 package com.start.startsecurity.core;
 
+import com.start.startsecurity.exception.PasswordErrorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,9 +43,7 @@ public class JwtAuthenticationProvider extends DaoAuthenticationProvider {
 //        boolean match = passwordEncoder.matches(loginPassWord, password);
         boolean match = password.equals(loginPassWord);
         if (!match) {
-            throw new BadCredentialsException(messages.getMessage(
-                    "AbstractUserDetailsAuthenticationProvider.badCredentials",
-                    "Bad credentials"));
+            throw new PasswordErrorException("user.error.login.username-or-password.error");
         }
         // 可以在此处覆写密码验证逻辑
 //		super.additionalAuthenticationChecks(userDetails, authentication);
