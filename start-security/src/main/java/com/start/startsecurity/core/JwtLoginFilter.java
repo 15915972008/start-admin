@@ -14,9 +14,12 @@ import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.start.startsecurity.dto.JwtAuthenticatioToken;
+import com.start.startsecurity.entity.User;
+import com.start.startsecurity.exception.PasswordErrorException;
 import com.start.startsecurity.utils.HttpUtils;
 import com.start.startsecurity.utils.JwtTokenUtils;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -24,6 +27,7 @@ import org.springframework.security.authentication.event.InteractiveAuthenticati
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.WebAttributes;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
@@ -100,8 +104,24 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         }
         // 生成并返回token给客户端，后续访问携带此token
         JwtAuthenticatioToken token = new JwtAuthenticatioToken(null, null, JwtTokenUtils.generateToken(authResult));
-        HttpUtils.write(response, token);
+        HttpUtils.writeSuccessful(response, token);
     }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response, AuthenticationException failed)
+            throws IOException, ServletException{
+        String username = request.getParameter("username");
+        HttpSession session = request.getSession(false);
+
+        if (session != null) {
+            session.setAttribute("username", username);
+            session.setAttribute(WebAttributes.AUTHENTICATION_EXCEPTION,
+                    failed.getMessage());
+        }
+        HttpUtils.writeUnSuccessful(response, failed.getMessage());
+    }
+
 
     /**
      *  

@@ -61,15 +61,15 @@ public class Results {
     // 业务调用失败
     // ----------------------------------------------------------------------------------------------------
     public static Result failure() {
-        return new Result(false,HttpStatus.valueOf("500").value());
+        return new Result(false,HttpStatus.INTERNAL_SERVER_ERROR.value());
     }
 
     public static Result failure(String msg) {
-        return new Result(false, HttpStatus.valueOf("500").value(),null, msg);
+        return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),null, msg);
     }
 
     public static Result failure(String code, String msg) {
-        return new Result(false, HttpStatus.valueOf("500").value(),code, msg);
+        return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),code, msg);
     }
 
     public static Result failureWithStatus(Integer status) {
@@ -81,14 +81,14 @@ public class Results {
     }
 
     public static Result failureWithData(Object data) {
-        return new Result(false, HttpStatus.valueOf("500").value(), null, null, data);
+        return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR.value(), null, null, data);
     }
 
     public static Result failureWithData(Object data, String msg) {
-        return new Result(false, HttpStatus.valueOf("500").value(),null, msg, data);
+        return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),null, msg, data);
     }
 
     public static Result failureWithData(Object data, String code, String msg) {
-        return new Result(false, HttpStatus.valueOf("500").value(),code, msg, data);
+        return new Result(false, HttpStatus.INTERNAL_SERVER_ERROR.value(),code, msg, data);
     }
 }

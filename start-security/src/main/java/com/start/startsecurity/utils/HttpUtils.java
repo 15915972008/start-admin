@@ -34,9 +34,19 @@ public class HttpUtils {
      * @param
      * @throws IOException
      */
-    public static void write(HttpServletResponse response, Object data) throws IOException {
+    public static void writeSuccessful(HttpServletResponse response, Object data) throws IOException {
         response.setContentType("application/json; charset=utf-8");
         Result result = Results.successWithData(data, null,BaseEnums.SUCCESS.desc());
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(result);
+        response.getWriter().print(json);
+        response.getWriter().flush();
+        response.getWriter().close();
+    }
+
+    public static void writeUnSuccessful(HttpServletResponse response, Object data) throws IOException {
+        response.setContentType("application/json; charset=utf-8");
+        Result result = Results.failureWithData(data, null,BaseEnums.ERROR.desc());
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(result);
         response.getWriter().print(json);
