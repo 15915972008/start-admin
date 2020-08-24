@@ -1,5 +1,6 @@
 package com.start.startsecurity.core;
 
+import com.start.startsecurity.utils.HttpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -24,6 +25,7 @@ public class CustomLogoutSuccessHandler implements LogoutSuccessHandler {
 
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        System.out.println("13");
+        System.out.println("登出成功");
+        HttpUtils.writeSuccessful(response, "登出成功");
     }
 }
